@@ -8,8 +8,8 @@ claim to any of it post your case in the cpuminer-opt Bitcoin Talk forum
 or by email.
 
 Miner programs are often flagged as malware by antivirus programs. This is
-a false positive, they are flagged simply because they are cryptocurrency 
-miners. The source code is open for anyone to inspect. If you don't trust 
+a false positive, they are flagged simply because they are cryptocurrency
+miners. The source code is open for anyone to inspect. If you don't trust
 the software, don't use it.
 
 
@@ -48,7 +48,7 @@ ARM and Aarch64 CPUs are not supported.
 2. 64 bit Linux or Windows OS. Ubuntu and Fedora based distributions,
 including Mint and Centos, are known to work and have all dependencies
 in their repositories. Others may work but may require more effort. Older
-versions such as Centos 6 don't work due to missing features. 
+versions such as Centos 6 don't work due to missing features.
 64 bit Windows OS is supported with mingw_w64 and msys or pre-built binaries.
 
 MacOS, OSx and Android are not supported.
@@ -63,9 +63,10 @@ Supported Algorithms
                           allium        Garlicoin
                           anime         Animecoin
                           argon2        Argon2 coin (AR2)
-                          argon2d250    argon2d-crds, Credits (CRDS)
-                          argon2d500    argon2d-dyn,  Dynamic (DYN)
-                          argon2d4096   argon2d-uis, Unitus, (UIS)
+                          argon2d250    argon2d-250
+                          argon2d500    argon2d-500
+                          argon2d4096   argon2d-4096
+                          argon2d16000  argon2d-16000
                           axiom         Shabal-256 MemoHash
                           blake         Blake-256 (SFR)
                           blake2b       Blake2b 256
@@ -168,7 +169,7 @@ yespoweriots: --algo yespower --param-n 2048 --param-key "Iots is committed to t
 
 yespowerlitb: --algo yespower --param-n 2048 --param-r 32 --param-key "LITBpower: The number of LITB working or available for proof-of-work mini"
 
-yespoweric: --algo yespower --param-n 2048 --param-r 32 --param-key "IsotopeC" 
+yespoweric: --algo yespower --param-n 2048 --param-r 32 --param-key "IsotopeC"
 
 yespowerurx: --algo yespower --param-n 2048 --param-r 32 --param-key "UraniumX"
 
@@ -217,4 +218,3 @@ cpuminer-opt has no fees of any kind but donations are accepted.
  BTC: 12tdvfF7KmAsihBXQXynT6E6th2c2pByTT
 
 Happy mining!
-

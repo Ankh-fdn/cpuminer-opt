@@ -295,9 +295,10 @@ bool register_algo_gate( int algo, algo_gate_t *gate )
     case ALGO_ALLIUM:        register_allium_algo        ( gate ); break;
     case ALGO_ANIME:         register_anime_algo         ( gate ); break;
     case ALGO_ARGON2:        register_argon2_algo        ( gate ); break;
-    case ALGO_ARGON2D250:    register_argon2d_crds_algo  ( gate ); break;
-    case ALGO_ARGON2D500:    register_argon2d_dyn_algo   ( gate ); break;
-    case ALGO_ARGON2D4096:   register_argon2d4096_algo   ( gate ); break;
+    case ALGO_ARGON2D250:    register_argon2d_250_algo   ( gate ); break;
+    case ALGO_ARGON2D500:    register_argon2d_500_algo   ( gate ); break;
+    case ALGO_ARGON2D4096:   register_argon2d_4096_algo  ( gate ); break;
+    case ALGO_ARGON2D16000:  register_argon2d_16000_algo ( gate ); break;
     case ALGO_AXIOM:         register_axiom_algo         ( gate ); break;
     case ALGO_BLAKE:         register_blake_algo         ( gate ); break;
     case ALGO_BLAKE2B:       register_blake2b_algo       ( gate ); break;
@@ -419,9 +420,10 @@ void exec_hash_function( int algo, void *output, const void *pdata )
 const char* const algo_alias_map[][2] =
 {
 //   alias                proper
-  { "argon2d-crds",      "argon2d250"     },
-  { "argon2d-dyn",       "argon2d500"     },
-  { "argon2d-uis",       "argon2d4096"    },
+  { "argon2d-250",       "argon2d250"     },
+  { "argon2d-500",       "argon2d500"     },
+  { "argon2d-4096",      "argon2d4096"    },
+  { "argon2d-16000",     "argon2d16000"   },
   { "bcd",               "x13bcd"         },
   { "bitcore",           "timetravel10"   },
   { "bitzeny",           "yescryptr8"     },

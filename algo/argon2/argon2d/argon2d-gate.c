@@ -6,9 +6,9 @@ static const size_t INPUT_BYTES = 80;  // Lenth of a block header in bytes. Inpu
 static const size_t OUTPUT_BYTES = 32; // Length of output needed for a 256-bit hash
 static const unsigned int DEFAULT_ARGON2_FLAG = 2; //Same as ARGON2_DEFAULT_FLAGS
 
-// Credits
+// 250
 
-void argon2d_crds_hash( void *output, const void *input )
+void argon2d_250_hash( void *output, const void *input )
 {
 	argon2_context context;
 	context.out = (uint8_t *)output;
@@ -34,7 +34,7 @@ void argon2d_crds_hash( void *output, const void *input )
 	argon2_ctx( &context, Argon2_d );
 }
 
-int scanhash_argon2d_crds( struct work *work, uint32_t max_nonce,
+int scanhash_argon2d_250( struct work *work, uint32_t max_nonce,
                       uint64_t *hashes_done, struct thr_info *mythr )
 {
    uint32_t _ALIGN(64) edata[20];
@@ -50,7 +50,7 @@ int scanhash_argon2d_crds( struct work *work, uint32_t max_nonce,
 
    do {
       be32enc(&edata[19], nonce);
-      argon2d_crds_hash( hash, edata );
+      argon2d_250_hash( hash, edata );
       if ( hash[7] <= Htarg && fulltest( hash, ptarget ) && !opt_benchmark )
       {
           pdata[19] = nonce;
@@ -64,18 +64,18 @@ int scanhash_argon2d_crds( struct work *work, uint32_t max_nonce,
    return 0;
 }
 
-bool register_argon2d_crds_algo( algo_gate_t* gate )
+bool register_argon2d_250_algo( algo_gate_t* gate )
 {
-        gate->scanhash = (void*)&scanhash_argon2d_crds;
-        gate->hash = (void*)&argon2d_crds_hash;
+        gate->scanhash = (void*)&scanhash_argon2d_250;
+        gate->hash = (void*)&argon2d_250_hash;
         gate->optimizations = SSE2_OPT | AVX2_OPT | AVX512_OPT;
         opt_target_factor = 65536.0;
         return true;
 }
 
-// Dynamic
+// 500
 
-void argon2d_dyn_hash( void *output, const void *input )
+void argon2d_500_hash( void *output, const void *input )
 {
     argon2_context context;
     context.out = (uint8_t *)output;
@@ -101,7 +101,7 @@ void argon2d_dyn_hash( void *output, const void *input )
     argon2_ctx( &context, Argon2_d );
 }
 
-int scanhash_argon2d_dyn( struct work *work, uint32_t max_nonce,
+int scanhash_argon2d_500( struct work *work, uint32_t max_nonce,
                       uint64_t *hashes_done, struct thr_info *mythr )
 {
    uint32_t _ALIGN(64) edata[20];
@@ -118,7 +118,7 @@ int scanhash_argon2d_dyn( struct work *work, uint32_t max_nonce,
    do
    {
       edata[19] = nonce;
-      argon2d_dyn_hash( hash, edata );
+      argon2d_500_hash( hash, edata );
       if ( unlikely( valid_hash( (uint64_t*)hash, (uint64_t*)ptarget )
            && !bench ) )
       {
@@ -133,18 +133,18 @@ int scanhash_argon2d_dyn( struct work *work, uint32_t max_nonce,
    return 0;
 }
 
-bool register_argon2d_dyn_algo( algo_gate_t* gate )
+bool register_argon2d_500_algo( algo_gate_t* gate )
 {
-        gate->scanhash = (void*)&scanhash_argon2d_dyn;
-        gate->hash = (void*)&argon2d_dyn_hash;
+        gate->scanhash = (void*)&scanhash_argon2d_500;
+        gate->hash = (void*)&argon2d_500_hash;
         gate->optimizations = SSE2_OPT | AVX2_OPT | AVX512_OPT;
         opt_target_factor = 65536.0;
         return true;
 }
 
-// Unitus
+// 4096
 
-int scanhash_argon2d4096( struct work *work, uint32_t max_nonce,
+int scanhash_argon2d_4096( struct work *work, uint32_t max_nonce,
                            uint64_t *hashes_done, struct thr_info *mythr )
 {
    uint32_t _ALIGN(64) vhash[8];
@@ -179,11 +179,77 @@ int scanhash_argon2d4096( struct work *work, uint32_t max_nonce,
    return 0;
 }
 
-bool register_argon2d4096_algo( algo_gate_t* gate )
+bool register_argon2_d4096_algo( algo_gate_t* gate )
 {
-        gate->scanhash = (void*)&scanhash_argon2d4096;
+        gate->scanhash = (void*)&scanhash_argon2d_4096;
         gate->optimizations = SSE2_OPT | AVX2_OPT | AVX512_OPT;
         opt_target_factor = 65536.0;
         return true;
 }
 
+// 16000
+
+void argon2d_16000_hash( void *output, const void *input )
+{
+	argon2_context context;
+	context.out = (uint8_t *)output;
+	context.outlen = (uint32_t)OUTPUT_BYTES;
+	context.pwd = (uint8_t *)input;
+	context.pwdlen = (uint32_t)INPUT_BYTES;
+	context.salt = (uint8_t *)input; //salt = input
+	context.saltlen = (uint32_t)INPUT_BYTES;
+	context.secret = NULL;
+	context.secretlen = 0;
+	context.ad = NULL;
+	context.adlen = 0;
+	context.allocate_cbk = NULL;
+	context.free_cbk = NULL;
+	context.flags = DEFAULT_ARGON2_FLAG; // = ARGON2_DEFAULT_FLAGS
+	// main configurable Argon2 hash parameters
+	context.m_cost = 16000; // Memory in KiB (~16384KB)
+	context.lanes = 1;    // Degree of Parallelism
+	context.threads = 1;  // Threads
+	context.t_cost = 1;   // Iterations
+        context.version = ARGON2_VERSION_10;
+
+	argon2_ctx( &context, Argon2_d );
+}
+
+int scanhash_argon2d_16000( struct work *work, uint32_t max_nonce,
+                      uint64_t *hashes_done, struct thr_info *mythr )
+{
+   uint32_t _ALIGN(64) edata[20];
+   uint32_t _ALIGN(64) hash[8];
+   uint32_t *pdata = work->data;
+   uint32_t *ptarget = work->target;
+   int thr_id = mythr->id;  // thr_id arg is deprecated
+   const uint32_t first_nonce = pdata[19];
+   const uint32_t Htarg = ptarget[7];
+   uint32_t nonce = first_nonce;
+
+   swab32_array( edata, pdata, 20 );
+
+   do {
+      be32enc(&edata[19], nonce);
+      argon2d_16000_hash( hash, edata );
+      if ( hash[7] <= Htarg && fulltest( hash, ptarget ) && !opt_benchmark )
+      {
+          pdata[19] = nonce;
+          submit_solution( work, hash, mythr );
+      }
+      nonce++;
+   } while (nonce < max_nonce && !work_restart[thr_id].restart);
+
+   pdata[19] = nonce;
+   *hashes_done = pdata[19] - first_nonce + 1;
+   return 0;
+}
+
+bool register_argon2d_16000_algo( algo_gate_t* gate )
+{
+        gate->scanhash = (void*)&scanhash_argon2d_16000;
+        gate->hash = (void*)&argon2d_16000_hash;
+        gate->optimizations = SSE2_OPT | AVX2_OPT | AVX512_OPT;
+        opt_target_factor = 65536.0;
+        return true;
+}
